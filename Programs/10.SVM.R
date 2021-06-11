@@ -1,0 +1,21 @@
+library(e1071)
+x=c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+y=c(3,4,5,4,8,10,10,11,14,20,23,24,32,34,35,37,42,48,53,60)
+train=data.frame(x,y)
+plot(train,pch=16)
+model_svm<- svm(y ~ x , train)
+print(model_svm)
+pred<- predict(model_svm, train)
+print(pred)
+model <- lm(y ~ x, train)
+error <- model$residuals
+lm_error<- sqrt(mean(error^2))
+print(lm_error)
+svm_tune<- tune(svm, y ~ x,data =train,ranges = list(epsilon = seq(0,1,0.01), cost =2^(2:9)))
+print(svm_tune)
+best_mod<- svm_tune$best.model
+best_mod_pred<- predict(best_mod, train) 
+error_best_mod<- train$y - best_mod_pred
+best_mod_RMSE<- sqrt(mean(error_best_mod^2))
+print(best_mod_RMSE)
+plot(svm_tune)

@@ -1,0 +1,15 @@
+library('e1071')
+library('caret')
+set.seed(101)
+data <- read.table('bank.csv',header = TRUE, sep = ";")
+data <- as.data.frame(data)
+View(data)
+n <- nrow(data)
+trainIndex <- sample(1:n, size = round(0.75*n), replace=FALSE)
+train <- data[trainIndex ,]
+test <- data[-trainIndex ,]
+model <- naiveBayes(y~., data=train)
+print(model)
+prediction <- predict(model,test)
+print(prediction)
+print(confusionMatrix(prediction,test$y))

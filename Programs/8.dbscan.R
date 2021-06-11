@@ -1,0 +1,10 @@
+library('fpc')
+library('factoextra')
+data("iris")
+iris <- as.matrix(iris[, 1:4])
+View(iris)
+set.seed(123)
+# fpc package
+res.fpc <- fpc::dbscan(iris, eps = 0.4, MinPts = 4)
+print(res.fpc)
+fviz_cluster(res.fpc, iris, geom = "point")
